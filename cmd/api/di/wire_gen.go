@@ -10,12 +10,12 @@ import (
 	"github.com/graphzc/go-clean-template/cmd/api/server"
 	"github.com/graphzc/go-clean-template/internal/config"
 	"github.com/graphzc/go-clean-template/internal/handlers"
+	"github.com/graphzc/go-clean-template/internal/handlers/auth"
 	"github.com/graphzc/go-clean-template/internal/handlers/common"
-	foo3 "github.com/graphzc/go-clean-template/internal/handlers/foo"
 	"github.com/graphzc/go-clean-template/internal/infrastructure/context"
 	"github.com/graphzc/go-clean-template/internal/infrastructure/database"
-	"github.com/graphzc/go-clean-template/internal/repositories/foo"
-	foo2 "github.com/graphzc/go-clean-template/internal/services/foo"
+	"github.com/graphzc/go-clean-template/internal/repositories/user"
+	user2 "github.com/graphzc/go-clean-template/internal/services/user"
 )
 
 // Injectors from wire.go:
@@ -25,10 +25,10 @@ func InitializeAPI() *server.EchoServer {
 	handler := common.New()
 	contextContext := context.NewContext()
 	db := database.NewSQLXClient(contextContext, configConfig)
-	repository := foo.NewRepository(db)
-	service := foo2.NewService(configConfig, repository)
-	fooHandler := foo3.New(service)
-	handlersHandlers := handlers.NewHandlers(handler, fooHandler)
+	repository := user.NewRepository(db)
+	service := user2.NewService(repository)
+	authHandler := auth.New(service)
+	handlersHandlers := handlers.NewHandlers(handler, authHandler)
 	echoServer := server.NewEchoServer(configConfig, handlersHandlers)
 	return echoServer
 }

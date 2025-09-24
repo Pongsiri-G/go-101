@@ -48,14 +48,17 @@ func (r *repository) FindByEmail(ctx context.Context, email string) (*entities.U
 
 func (r *repository) Create(ctx context.Context, user *entities.User) error {
 	model, err := FromUserEntity(user)
-	if model != nil {
+	if err != nil {
 		return err
+	}
+	if model == nil {
+		return ErrNullUser
 	}
 	query := `
 		INSERT INTO users (id, name, email, password, created_at, updated_at)
 		VALUES (:id, :name, :email, :password, :created_at, :updated_at);`
 
-	result, err := r.db.ExecContext(ctx, query, model)
+	result, err := r.db.NamedExecContext(ctx, query, model)
 	if err != nil {
 		return err
 	}

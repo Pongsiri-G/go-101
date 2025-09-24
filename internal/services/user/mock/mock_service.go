@@ -2,9 +2,12 @@
 // github.com/vektra/mockery
 // template: testify
 
-package mock_foo
+package mock_user
 
 import (
+	"context"
+
+	"github.com/graphzc/go-clean-template/internal/services/user"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -33,4 +36,61 @@ type MockService_Expecter struct {
 
 func (_m *MockService) EXPECT() *MockService_Expecter {
 	return &MockService_Expecter{mock: &_m.Mock}
+}
+
+// Register provides a mock function for the type MockService
+func (_mock *MockService) Register(ctx context.Context, in *user.UserRegisterInput) error {
+	ret := _mock.Called(ctx, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Register")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *user.UserRegisterInput) error); ok {
+		r0 = returnFunc(ctx, in)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockService_Register_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Register'
+type MockService_Register_Call struct {
+	*mock.Call
+}
+
+// Register is a helper method to define mock.On call
+//   - ctx context.Context
+//   - in *user.UserRegisterInput
+func (_e *MockService_Expecter) Register(ctx interface{}, in interface{}) *MockService_Register_Call {
+	return &MockService_Register_Call{Call: _e.mock.On("Register", ctx, in)}
+}
+
+func (_c *MockService_Register_Call) Run(run func(ctx context.Context, in *user.UserRegisterInput)) *MockService_Register_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *user.UserRegisterInput
+		if args[1] != nil {
+			arg1 = args[1].(*user.UserRegisterInput)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockService_Register_Call) Return(err error) *MockService_Register_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockService_Register_Call) RunAndReturn(run func(ctx context.Context, in *user.UserRegisterInput) error) *MockService_Register_Call {
+	_c.Call.Return(run)
+	return _c
 }

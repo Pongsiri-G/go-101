@@ -22,7 +22,9 @@ type service struct {
 
 // @WireSet("Service")
 func NewService(userRepo userRepo.Repository) Service {
-	return &service{}
+	return &service{
+		userRepo: userRepo,
+	}
 }
 
 // Register implements Service.

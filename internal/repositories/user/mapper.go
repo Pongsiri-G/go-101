@@ -16,7 +16,7 @@ func (m *Model) ToUserEntity() *entities.User {
 	}
 }
 
-func FromUserEntity(entity *entities.User) (*Model, error){
+func FromUserEntity(entity *entities.User) (*Model, error) {
 	if entity == nil {
 		return nil, ErrNullUser
 	}
@@ -27,10 +27,10 @@ func FromUserEntity(entity *entities.User) (*Model, error){
 	}
 
 	return &Model{
-		ID: userUUID,
-		Name: entity.Name,
-		Email: entity.Email,
-		Password: entity.Password,
+		ID:        userUUID,
+		Name:      entity.Name,
+		Email:     entity.Email,
+		Password:  entity.Password,
 		CreatedAt: entity.CreatedAt,
 		UpdatedAt: entity.UpdatedAt,
 	}, nil

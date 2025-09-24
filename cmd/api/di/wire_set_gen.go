@@ -5,12 +5,12 @@ package di
 import (
 	config "github.com/graphzc/go-clean-template/internal/config"
 	handlers "github.com/graphzc/go-clean-template/internal/handlers"
+	auth "github.com/graphzc/go-clean-template/internal/handlers/auth"
 	common "github.com/graphzc/go-clean-template/internal/handlers/common"
-	foo "github.com/graphzc/go-clean-template/internal/handlers/foo"
 	context "github.com/graphzc/go-clean-template/internal/infrastructure/context"
 	database "github.com/graphzc/go-clean-template/internal/infrastructure/database"
-	foo2 "github.com/graphzc/go-clean-template/internal/repositories/foo"
-	foo3 "github.com/graphzc/go-clean-template/internal/services/foo"
+	user "github.com/graphzc/go-clean-template/internal/repositories/user"
+	user2 "github.com/graphzc/go-clean-template/internal/services/user"
 
 	"github.com/google/wire"
 )
@@ -21,8 +21,8 @@ var ConfigSet = wire.NewSet(
 
 var HandlerSet = wire.NewSet(
 	handlers.NewHandlers,
+	auth.New,
 	common.New,
-	foo.New,
 )
 
 var InfrastructureSet = wire.NewSet(
@@ -31,9 +31,9 @@ var InfrastructureSet = wire.NewSet(
 )
 
 var RepositorySet = wire.NewSet(
-	foo2.NewRepository,
+	user.NewRepository,
 )
 
 var ServiceSet = wire.NewSet(
-	foo3.NewService,
+	user2.NewService,
 )
